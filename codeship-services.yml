@@ -1,0 +1,4 @@
+app-builder:
+  build:
+    dockerfile: Dockerfile-builder
+  add_docker: true

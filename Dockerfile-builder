@@ -1,0 +1,55 @@
+FROM docker:dind
+
+#
+# Install OpenJDK
+#
+# Source: https://github.com/docker-library/openjdk/blob/master/8-jdk/alpine/Dockerfile
+# 
+
+# Default to UTF-8 file.encoding
+ENV LANG C.UTF-8
+
+# add a simple script that can auto-detect the appropriate JAVA_HOME value
+# based on whether the JDK or only the JRE is installed
+RUN { \
+		echo '#!/bin/sh'; \
+		echo 'set -e'; \
+		echo; \
+		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+	} > /usr/local/bin/docker-java-home \
+	&& chmod +x /usr/local/bin/docker-java-home
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
+
+ENV JAVA_VERSION 8u151
+ENV JAVA_ALPINE_VERSION 8.151.12-r0
+
+RUN set -x \
+	&& apk add --no-cache \
+		openjdk8="$JAVA_ALPINE_VERSION" \
+	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
+
+
+#
+# Install SBT
+#
+# Source: https://github.com/gafiatulin/alpine-sbt/blob/master/Dockerfile
+#
+
+ENV sbt_version 1.1.0
+ENV sbt_home /usr/local/sbt
+ENV PATH ${PATH}:${sbt_home}/bin
+
+# Install sbt
+RUN apk add --no-cache --update bash wget && \
+    mkdir -p "$sbt_home" && \
+    wget -qO - --no-check-certificate "https://github.com/sbt/sbt/releases/download/v$sbt_version/sbt-$sbt_version.tgz" | tar xz -C $sbt_home --strip-components=1 && \
+    apk del wget && \
+    sbt sbtVersion
+
+WORKDIR /app
+
+#
+# Copy sources to the workdir
+#
+COPY . /app

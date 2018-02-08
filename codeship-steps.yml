@@ -1,0 +1,24 @@
+#
+# Make sure that `docker`, `javac` and `sbt` are available for the build. These steps are 
+# completely redundant in a production environment - feel free to remove them for improved
+# performance. 
+#
+- service: app-builder 
+  command: docker run busybox echo "docker is up and running"
+- service: app-builder
+  command: javac -version
+- service: app-builder
+  command: sbt sbtVersion 
+#
+# Run unit and/or integration tests on the project (via sbt)
+#
+- service: app-builder
+  command: sbt test 
+#
+# Publish the Docker image
+#
+- service: app-builder
+  command: sbt docker:publishLocal
+- service: app-builder
+  command: docker run --rm codeship-scala-docker 
+
