@@ -7,9 +7,21 @@ A sample [Scala](https://www.scala-lang.org/) application, which is released as 
 * Install [Docker](https://docs.docker.com/install/)
 * Install [jet](https://documentation.codeship.com/pro/jet-cli/installation/)
 
-## Testing locally
+## Running locally
 
-Run the pipeline steps using `jet`:
+Put your AWS environment variables in `aws.env`:
+
+    AWS_REGION=us-east-1
+    AWS_ACCESS_KEY_ID=??? 
+    AWS_SECRET_ACCESS_KEY=??? 
+
+Encrypt the file using `jet encrypt`: 
+
+    jet encrypt aws.env aws.env.encrypted
+
+Setup a Codeship project and download [codeship.aes](https://documentation.codeship.com/pro/builds-and-configuration/environment-variables/#downloading-your-aes-key) to the project root directory.
+
+Run all pipeline steps using `jet`:
 
     jet steps
 

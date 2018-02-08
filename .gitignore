@@ -16,3 +16,13 @@ project/plugins/project/
 
 # End of https://www.gitignore.io/api/sbt
 
+# Codeship
+codeship.aes
+
+# AWS credentials
+aws.env
+
+# Excluded from VCS in the public domain
+aws.env.encrypted
+
+

@@ -11,6 +11,8 @@
   command: sbt sbtVersion 
 #
 # Run unit and/or integration tests on the project (via sbt)
+# 
+# NOTE: You can speed up the process by making `test` a dependent task of `ecr:push` (to avoid spawning `sbt` twice)
 #
 - service: app-builder
   command: sbt test 
@@ -18,7 +20,5 @@
 # Publish the Docker image
 #
 - service: app-builder
-  command: sbt docker:publishLocal
-- service: app-builder
-  command: docker run --rm codeship-scala-docker 
+  command: sbt ecr:push
 
