@@ -1,6 +1,6 @@
 # Codeship SBT Docker
 
-A sample [Scala](https://www.scala-lang.org/) application, which is released as a [Docker](https://www.docker.com/) image, using [SBT](https://www.scala-sbt.org/) in [Codeship](https://codeship.com/) pipeline.
+A sample [Scala](https://www.scala-lang.org/) application, which is released as a [Docker](https://www.docker.com/) image to [Amazon ECR](https://aws.amazon.com/ecr/), using [SBT](https://www.scala-sbt.org/), in a [Codeship](https://codeship.com/) pipeline.
 
 ## Prerequisites
 
